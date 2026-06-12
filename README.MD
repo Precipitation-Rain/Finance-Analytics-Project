@@ -10,6 +10,16 @@ An end-to-end financial analytics project built for a banking organization — c
 
 ---
 
+## 📹 Dashboard Demo
+
+<a href="YOUR_YOUTUBE_LINK_HERE">
+  <img src="https://img.shields.io/badge/▶️ Watch Demo-Check it out-FF0000?style=for-the-badge&logo=youtube&logoColor=white"/>
+</a>
+
+> Replace `YOUR_YOUTUBE_LINK_HERE` with your YouTube Unlisted link after recording.
+
+---
+
 ## 📌 Project Overview
 
 A financial organization needed a centralized analytical solution to monitor KPIs, understand customer segment behaviour, track transaction performance, and identify high-performing regions — replacing manual reporting with an interactive, filterable dashboard.
@@ -26,8 +36,6 @@ The full requirements are documented in [`Business Requirements.docx`](./Busines
 
 ## 🎯 Business Problems Solved
 
-The management team faced challenges tracking:
-
 - Overall transaction growth and year-over-year financial performance
 - Monthly trends in transaction amounts across the year
 - Successful vs failed vs pending transactions
@@ -36,7 +44,7 @@ The management team faced challenges tracking:
 - Transaction type profitability (10 types from Loan EMI to Investments)
 - Gender-based customer participation
 - Operational fees and tax collection efficiency
-- **Which customers are most valuable — and which are about to churn** (RFM analysis)
+- **Which customers are most valuable — and which are about to churn** (RFM, Page 3)
 
 ---
 
@@ -46,7 +54,7 @@ The management team faced challenges tracking:
 
 | KPI | Description |
 |---|---|
-| Total Amount | Total transaction value processed, with year-over-year comparison |
+| Total Amount | Total transaction value with year-over-year comparison |
 | Total Transactions | Volume of transactions with yearly trend |
 | Average Transaction Value | Mean amount per transaction |
 | Total Fees | Aggregate fees collected |
@@ -56,41 +64,40 @@ The management team faced challenges tracking:
 
 | Visual | Type | Purpose |
 |---|---|---|
-| Total Amount by Month | Line / Area Chart | Identify seasonal spikes and monthly trends |
-| Transaction Status Split | Donut Chart | Success vs Failed vs Pending — measures operational efficiency |
-| Amount by Customer Segment | Horizontal Bar Chart | Ranks Retail, Premium, SME, Corporate, Wealth contribution |
-| Amount by State | Horizontal Bar Chart | Identifies top-performing regions |
+| Total Amount by Month | Line / Area Chart | Seasonal spikes and monthly trends |
+| Transaction Status Split | Donut Chart | Success vs Failed vs Pending |
+| Amount by Customer Segment | Horizontal Bar Chart | Retail, Premium, SME, Corporate, Wealth contribution |
+| Amount by State | Horizontal Bar Chart | Top-performing regions |
 | Transaction Type Analysis | Matrix / Heatmap | Amount, Fees, Tax, Count across 10 transaction types |
 | Amount by Gender | Donut Chart | Male vs Female transaction participation |
 
-### Dynamic Filters
-Users can slice all visuals by: **Year · Dynamic Measure · Occupation · Category**
+**Dynamic Filters:** Year · Dynamic Measure · Occupation · Category
 
 ---
 
 ## 📋 Dashboard — Page 2: Drill-Down Grid View
 
-A detailed tabular view with drill-down capability into underlying transaction records — enabling analysts to go from summary KPIs to individual data points in one click.
+Detailed tabular view with drill-down into individual transaction records — from summary KPIs to raw data in one click.
 
 ---
 
-## 🧠 Dashboard — Page 3: RFM Customer Segmentation *(Original Work)*
+## 🧠 Dashboard — Page 3: RFM Customer Intelligence *(Original Work)*
 
-> This page was not part of the guided project. Built independently using RFM analysis — a standard framework used by banks and fintechs to understand customer value and behaviour.
+> This page was not part of the guided project. Built independently using RFM — a standard framework used by banks and fintechs to understand customer value and predict churn.
+
+*"Who are your most valuable customers?"*
 
 ### What is RFM?
 
-RFM segments customers based on three behavioural metrics:
-
 | Metric | Question | Logic |
 |---|---|---|
-| **R — Recency** | When did they last transact? | Transacted yesterday > transacted 6 months ago |
-| **F — Frequency** | How often do they transact? | 15 transactions > 2 transactions |
-| **M — Monetary** | How much have they spent total? | ₹1.5L spent > ₹20K spent |
+| **R — Recency** | When did they last transact? | Transacted recently = higher score |
+| **F — Frequency** | How often do they transact? | More transactions = higher score |
+| **M — Monetary** | How much have they spent total? | Higher spend = higher score |
 
-Each customer is scored 1–4 on all three metrics. Combined score (max 12, min 3) determines their segment.
+Each customer scored 1–4 on all three. Combined score (max 12, min 3) determines segment.
 
-### Segmentation Results (from 50,069 transactions, 5,000 customers)
+### Segmentation Results
 
 | Segment | Score | Customers | Share | Avg Spend |
 |---|---|---|---|---|
@@ -100,21 +107,28 @@ Each customer is scored 1–4 on all three metrics. Combined score (max 12, min 
 | At Risk | 4–5 | 781 | 19.6% | ₹42,509 |
 | Dormant | 3 | 361 | 9.1% | ₹20,590 |
 
-**Key finding:** Champions spend **8.7× more** than Dormant customers. The business action: retain Champions, re-engage the 781 At Risk customers before they go Dormant.
+**Key Finding 1:** Champions spend **8.7× more** than Dormant customers.
 
-### How RFM Was Calculated
+**Key Finding 2:** Avg recency — Champion: 42 days vs Dormant: 448 days. Scoring validated.
 
-RFM scores were computed in Python (`rfm_analysis.py`) on **successful transactions only** (42,921 out of 50,069). Negative amounts (refunds) were excluded from Monetary scoring. Scores were assigned using quartile-based binning (`pd.qcut`) to ensure equal distribution across segments. The output (`rfm_segments.csv`) was loaded into Power BI as a third table and joined to the transaction data on `customer_id`.
+**Key Finding 3 (from matrix):** Retail produces the most Champions (596) despite being a mass-market segment. Wealth produces only 50 Champions — the bank is underengaging its highest-income customers. Actionable insight for the business.
 
-### Page 3 Visuals
+**Key Finding 4:** 1,022 customers (20.4% of total base) never completed a successful transaction — a dormant account problem the business needs to address.
+
+### Page 3 Charts
 
 | Visual | Purpose |
 |---|---|
-| Segment distribution donut | How customers split across 5 segments |
-| Avg spend by segment | Shows the 8.7× spend gap Champion vs Dormant |
-| Avg recency by segment | Shows how recently each segment transacted |
-| Customer segment × RFM segment matrix | Do Champions come from Wealth or Retail customers? |
-| At Risk KPI card | 781 customers — the urgent business action number |
+| Customers by Segment (Donut) | How customers split across 5 segments |
+| Avg Spend by Segment (Bar) | Shows the 8.7× spend gap |
+| Avg Recency by Segment (Bar) | Validates scoring — Champions transacted most recently |
+| RFM Segment × Customer Segment (Matrix) | Which customer types produce Champions |
+| Customers by Transaction Count (Column) | Distribution of how often customers transact |
+| RFM Score Distribution (Column) | How scores cluster — most customers are mid-tier |
+
+### How RFM Was Calculated
+
+Computed in Python (`rfm_analysis.py`) on **successful transactions only** (42,921 of 50,069). Negative amounts (refunds) excluded from Monetary. Scores assigned via quartile binning (`pd.qcut`). Output (`rfm_segments.csv`) loaded into Power BI as a third table — self-contained, no relationship dependency on other tables.
 
 ---
 
@@ -125,8 +139,8 @@ RFM scores were computed in Python (`rfm_analysis.py`) on **successful transacti
 | Data Preparation & EDA | Python, Pandas, Jupyter Notebook |
 | RFM Segmentation | Python, Pandas (`rfm_analysis.py`) |
 | Dashboard & Visualisation | Power BI Desktop |
-| Data Storage | CSV (customers + transactions + rfm_segments) |
-| Requirements Documentation | Microsoft Word (.docx) |
+| Data | CSV — customers, transactions, rfm_segments |
+| Requirements | Microsoft Word (.docx) |
 
 ---
 
@@ -135,53 +149,49 @@ RFM scores were computed in Python (`rfm_analysis.py`) on **successful transacti
 ```
 Finance-Analytics-Project/
 │
-├── Finance.ipynb                    # Python EDA — data cleaning, profiling, exploration
-├── rfm_analysis.py                  # RFM scoring script (original work)
-├── Finance Analytics Dashboard.pbix # Power BI dashboard (3 pages)
-├── Business Requirements.docx       # Formal requirements document
-├── customers.csv                    # Customer master data
-├── finance_transactions.csv         # Transaction records
-├── rfm_segments.csv                 # RFM output — 3,978 customers scored and segmented
-└── Images/                          # Dashboard screenshots
+├── Finance.ipynb                     # Python EDA — cleaning, profiling, exploration
+├── rfm_analysis.py                   # RFM scoring script (original work)
+├── Finance Analytics Dashboard.pbix  # Power BI dashboard (3 pages)
+├── Business Requirements.docx        # Formal requirements document
+├── customers.csv                     # Customer master data (5,000 records)
+├── finance_transactions.csv          # Transaction records (50,069 records)
+├── rfm_segments.csv                  # RFM output — 3,978 customers scored
+└── Images/                           # Dashboard screenshots
 ```
 
 ---
 
 ## 🗃️ Dataset
 
-**customers.csv** — Customer master records
-- Fields: Customer ID, Name, Gender, Age, State, Occupation, Customer Segment (Retail / Premium / SME / Corporate / Wealth)
+**customers.csv** — 5,000 customer records
+- Customer ID, Name, Gender, DOB, City, State, Occupation, Segment, Annual Income
 
-**finance_transactions.csv** — Transaction records
-- Fields: Transaction ID, Customer ID, Date, Transaction Type, Amount, Fees, Tax, Status (Success / Failed / Pending)
-- 50,069 records · Date range: Jan 2023 – Dec 2025
+**finance_transactions.csv** — 50,069 transaction records · Jan 2023 – Dec 2025
+- Transaction ID, Customer ID, Date, Type, Amount, Fees, Tax, Status, Channel, Merchant Category
 
-**Transaction Types covered:**
+**Transaction Types:**
 Bill Payment · Card Payment · Deposit · Fee Charge · Interest Credit · Investment · Loan EMI · Refund · Transfer · Withdrawal
 
 ---
 
-## 🚀 How to Use
+## 🚀 How to Run
 
 ### Power BI Dashboard
 1. Download `Finance Analytics Dashboard.pbix`
-2. Open in **Power BI Desktop** (free download from Microsoft)
-3. If data paths break, re-point to the CSVs via Transform Data → Source
+2. Open in **Power BI Desktop** (free)
+3. If paths break → Transform Data → Source → re-point to CSVs
 
 ### Python EDA + RFM
 ```bash
-# 1. Clone the repo
 git clone https://github.com/Precipitation-Rain/Finance-Analytics-Project.git
 cd Finance-Analytics-Project
 
-# 2. Install dependencies
 pip install pandas numpy matplotlib seaborn jupyter
 
-# 3. Run RFM analysis
+# Run RFM analysis — outputs rfm_segments.csv
 python rfm_analysis.py
-# Outputs: rfm_segments.csv (3,978 customers with R, F, M scores and segment labels)
 
-# 4. Open EDA notebook
+# Open EDA notebook
 jupyter notebook Finance.ipynb
 ```
 
@@ -189,20 +199,35 @@ jupyter notebook Finance.ipynb
 
 ## 💡 What Makes This Project Different
 
-**Business Requirements document** — Most student BI projects jump straight to building. This project started by defining the exact KPIs, chart types, and filter requirements in a formal document — exactly how real BI delivery works in banking and financial services.
+**Business Requirements document** — Project started with a formal requirements doc defining KPIs, charts, and filters before any tool was opened. This is how real BI projects are delivered.
 
-**Original RFM page** — Page 3 was not part of the guided project. RFM is a real industry framework used by every major bank and fintech. Computing it in Python and feeding it into Power BI as a third analytical layer shows end-to-end thinking beyond the dashboard brief.
+**Original RFM page** — Page 3 was not in the guided project. RFM is used by every major bank and fintech to segment customers and predict churn. Computing it in Python and loading it into Power BI as a third analytical layer shows end-to-end thinking.
 
-**Two-dataset join model** — Joining customer demographics with transaction records simulates the relational data that analysts work with daily at banks and NBFCs.
+**Actionable matrix insight** — Wealth customers (highest income) produce only 50 Champions vs Retail's 596. That's a real business problem hiding in the data.
 
-**10 transaction type breakdown** — Going beyond totals to break down by category (Loan EMI, Investments, Refunds, etc.) is the granularity financial stakeholders actually need.
+**1,022 inactive accounts identified** — 20.4% of the customer base never completed a transaction. Business can act on this immediately.
 
 ---
 
 ## 📬 Author
 
 **Rajvardhan Shewale**
-- [GitHub](https://github.com/Precipitation-Rain)
-- [LinkedIn](https://www.linkedin.com/in/rajvardhanshewale/)
-- [Kaggle](https://www.kaggle.com/shambhushewale)
-- [Portfolio](https://sites.google.com/view/rajvardhanshewale1771/home)
+
+<a href="https://github.com/Precipitation-Rain">
+  <img src="https://img.shields.io/badge/GitHub-Precipitation--Rain-181717?style=for-the-badge&logo=github&logoColor=white"/>
+</a>
+<a href="https://www.linkedin.com/in/rajvardhanshewale/">
+  <img src="https://img.shields.io/badge/LinkedIn-Rajvardhan%20Shewale-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white"/>
+</a>
+<a href="https://www.kaggle.com/shambhushewale">
+  <img src="https://img.shields.io/badge/Kaggle-shambhushewale-20BEFF?style=for-the-badge&logo=kaggle&logoColor=white"/>
+</a>
+<a href="https://sites.google.com/view/rajvardhanshewale1771/home">
+  <img src="https://img.shields.io/badge/Portfolio-Visit%20Site-4285F4?style=for-the-badge&logo=google&logoColor=white"/>
+</a>
+
+---
+
+<a href="YOUR_YOUTUBE_LINK_HERE">
+  <img src="https://img.shields.io/badge/▶️ Dashboard Demo-Check it out-FF0000?style=for-the-badge&logo=youtube&logoColor=white"/>
+</a>
